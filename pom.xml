@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.data</groupId>
-	<artifactId>examen</artifactId>
+	<artifactId>ms-migraciones-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>examen</name>
+	<packaging>jar</packaging>
 	<description>Reto Tecnico Sebastian Cabrera</description>
 	<properties>
 		<java.version>17</java.version>

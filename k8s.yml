@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: migraciones-poc-config
+data:
+  ENVIRONMENT: "desa"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: migraciones-poc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: migraciones-poc
+  template:
+    metadata:
+      labels:
+        app: migraciones-poc
+    spec:
+      containers:
+        - name: migraciones-poc-container
+          image: 73191639/migraciones_poc:latest # Reemplaza con tu imagen
+          ports:
+            - containerPort: 8080 # Reemplaza con el puerto de tu aplicación
+          envFrom:
+            - configMapRef:
+                name: migraciones-poc-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: migraciones-poc-service
+spec:
+  selector:
+    app: migraciones-poc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080 # Reemplaza con el puerto de tu aplicación
+  type: LoadBalancer # Cambia a ClusterIP si solo necesitas acceso interno
