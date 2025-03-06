@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage('Build Java Project') {
             steps {
+                tool name: 'Maven 3.9.9'
                 sh 'mvn clean package'
             }
         }
