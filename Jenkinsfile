@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'frankcg'
-        IMAGE_NAME = 'migraciones-poc'
+        DOCKER_REGISTRY = '73191639'
+        IMAGE_NAME = 'migraciones_poc'
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
