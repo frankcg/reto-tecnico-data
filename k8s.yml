@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: migraciones-poc-config
+data:
+  ENVIRONMENT: "desa"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
