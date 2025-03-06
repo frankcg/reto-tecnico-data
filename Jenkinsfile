@@ -40,11 +40,12 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    withCredentials([string(credentialsId: 'kubeconfig-secret', variable: 'KUBECONFIG')]) {
-                        sh "kubectl version --client --kubeconfig=$KUBECONFIG"
-                        sh "kubectl apply -f k8s.yaml --kubeconfig=$KUBECONFIG"
-                        sh "kubectl set image deployment/migraciones-poc-deployment migraciones-poc-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} --kubeconfig=$KUBECONFIG -n default"
+                withCredentials([file(credentialsId: 'kubeconfig-cred', variable: 'KUBECONFIG')]) {
+                    script {
+                        withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
+                            sh 'kubectl version --client'
+                            sh 'kubectl apply -f k8s.yaml'
+                        }
                     }
                 }
             }
