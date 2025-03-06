@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'frank.cg9@gmail.com' // Reemplaza con tu usuario de Docker Hub
+        DOCKER_REGISTRY = 'frankcg' // Reemplaza con tu usuario de Docker Hub
         IMAGE_NAME = 'migraciones-poc'
         IMAGE_TAG = "${BUILD_NUMBER}"
         //KUBE_CONFIG = credentials('kube-config') // Credenciales de Kubernetes
@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build Java Project') {
             steps {
-                sh 'docker run --rm -v "$PWD":/app -w /app maven:3.9.6-eclipse-temurin-17 mvn clean package'
+                sh 'docker run --rm -v "$WORKSPACE":/app -w /app maven:3.9.6-eclipse-temurin-17 mvn clean package'
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry("https://index.docker.io/v1/", 'dockerhub-credentials') {
+                    docker.withRegistry('', 'dockerhub-credentials') {
                         docker.image("${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}").push()
                     }
                 }
@@ -39,8 +39,8 @@ pipeline {
                 script {
                     //withKubeConfig([credentialsId: 'kube-config']) {
                     withCredentials([string(credentialsId: 'kubeconfig-secret', variable: 'KUBECONFIG')]) {
-                        sh "kubectl apply -f k8s.yaml -n default"
-                        sh "kubectl set image deployment/migraciones-poc-deployment migraciones-poc-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} -n default"
+                        sh "kubectl apply -f k8s.yaml --kubeconfig=$KUBECONFIG"
+                        sh "kubectl set image deployment/migraciones-poc-deployment migraciones-poc-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} --kubeconfig=$KUBECONFIG -n default"
                     }
                 }
             }
