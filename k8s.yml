@@ -23,7 +23,7 @@ spec:
         - name: migraciones-poc-container
           image: 73191639/migraciones_poc:latest # Reemplaza con tu imagen
           ports:
-            - containerPort: 8080 # Reemplaza con el puerto de tu aplicación
+            - containerPort: 8081 # Reemplaza con el puerto de tu aplicación
           envFrom:
             - configMapRef:
                 name: migraciones-poc-config
@@ -38,5 +38,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080 # Reemplaza con el puerto de tu aplicación
+      targetPort: 8081 # Reemplaza con el puerto de tu aplicación
   type: LoadBalancer # Cambia a ClusterIP si solo necesitas acceso interno
