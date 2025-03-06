@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'frankcg' // Usuario de Docker Hub
+        DOCKER_REGISTRY = 'frankcg'
         IMAGE_NAME = 'migraciones-poc'
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
@@ -43,4 +43,11 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'kubeconfig-secret', variable: 'KUBECONFIG')]) {
                         sh "kubectl version --client --kubeconfig=$KUBECONFIG"
-                        sh "kubectl apply -f k8s
+                        sh "kubectl apply -f k8s.yaml --kubeconfig=$KUBECONFIG"
+                        sh "kubectl set image deployment/migraciones-poc-deployment migraciones-poc-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} --kubeconfig=$KUBECONFIG -n default"
+                    }
+                }
+            }
+        }
+    }
+}
