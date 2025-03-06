@@ -1,9 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.6-eclipse-temurin-17'
-        }
-    }
+    agent any
+
     environment {
         DOCKER_REGISTRY = 'frank.cg9@gmail.com' // Reemplaza con tu usuario de Docker Hub
         IMAGE_NAME = 'migraciones-poc'
@@ -15,7 +12,7 @@ pipeline {
     stages {
         stage('Build Java Project') {
             steps {
-                sh 'mvn clean package'
+                sh 'docker run --rm -v "$PWD":/app -w /app maven:3.9.6-eclipse-temurin-17 mvn clean package'
             }
         }
 
