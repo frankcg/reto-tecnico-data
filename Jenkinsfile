@@ -5,7 +5,8 @@ pipeline {
         DOCKER_REGISTRY = 'frank.cg9@gmail.com' // Reemplaza con tu usuario de Docker Hub
         IMAGE_NAME = 'migraciones-poc'
         IMAGE_TAG = "${BUILD_NUMBER}"
-        KUBE_CONFIG = credentials('kube-config') // Credenciales de Kubernetes
+        //KUBE_CONFIG = credentials('kube-config') // Credenciales de Kubernetes
+        //env.KUBECONFIG = "${WORKSPACE}/kubeconfig"
     }
 
     stages {
@@ -37,7 +38,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    withKubeConfig([credentialsId: 'kube-config']) {
+                    //withKubeConfig([credentialsId: 'kube-config']) {
+                    withCredentials([string(credentialsId: 'kubeconfig-secret', variable: 'KUBECONFIG')]) {
                         sh "kubectl apply -f k8s.yaml -n default"
                         sh "kubectl set image deployment/migraciones-poc-deployment migraciones-poc-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} -n default"
                     }
