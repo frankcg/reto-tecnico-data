@@ -1,6 +1,9 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'maven:3.9.6-eclipse-temurin-17'
+        }
+    }
     environment {
         DOCKER_REGISTRY = 'frank.cg9@gmail.com' // Reemplaza con tu usuario de Docker Hub
         IMAGE_NAME = 'migraciones-poc'
