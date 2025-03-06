@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Java Project') {
             steps {
-                sh 'docker run --rm -v ${WORKSPACE}:${WORKSPACE} -w ${WORKSPACE} maven:3.9.6-eclipse-temurin-17 mvn clean package'
+                sh 'mvn clean package'
             }
         }
 
