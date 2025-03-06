@@ -24,6 +24,7 @@ public class ExchangeController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getExchange(@PathVariable Long id){
+		//TEST
 		Optional<Exchange> a = exchangeService.getExchangeById(id);
 		if(!a.isPresent())
 			return ResponseEntity.notFound().build();
