@@ -28,8 +28,7 @@ services:
     build:
       context: ./jenkins
       dockerfile: Dockerfile
-#    image: jenkins/jenkins:lts
-#    container_name: jenkins
+    container_name: jenkins
     privileged: true
     user: root
     ports:
