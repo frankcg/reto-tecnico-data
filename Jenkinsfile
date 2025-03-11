@@ -42,7 +42,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-cred', variable: 'KUBECONFIG')]) {
                     script {
-                        withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
+                        withEnv(["KUBECONFIG=$KUBECONFIG"]) {
                             sh 'kubectl version --client'
                             sh 'kubectl apply -f k8s.yaml'
                         }
