@@ -1,12 +1,12 @@
-#version: '3.8'
-#
-#services:
-#  app:
-#    build: .
-#    container_name: migraciones_poc
-#    restart: always
-#    ports:
-#      - "8081:8081"
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: migraciones_poc
+    restart: always
+    ports:
+      - "8080:8080"
 
 #services:
 #  jenkins:
@@ -21,25 +21,25 @@
 #volumes:
 #  jenkins_home:
 
-version: '3.8'
-
-services:
-  jenkins:
-    build:
-      context: ./jenkins
-      dockerfile: Dockerfile
-    container_name: jenkins
-    privileged: true
-    user: root
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock  # Permite a Jenkins ejecutar Docker
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-
-volumes:
-  jenkins_home:
+#version: '3.8'
+#
+#services:
+#  jenkins:
+#    build:
+#      context: ./jenkins
+#      dockerfile: Dockerfile
+#    container_name: jenkins
+#    privileged: true
+#    user: root
+#    ports:
+#      - "8080:8080"
+#      - "50000:50000"
+#    volumes:
+#      - jenkins_home:/var/jenkins_home
+#      - /var/run/docker.sock:/var/run/docker.sock  # Permite a Jenkins ejecutar Docker
+#    environment:
+#      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+#
+#volumes:
+#  jenkins_home:
 
