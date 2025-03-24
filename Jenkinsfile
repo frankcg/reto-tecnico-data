@@ -42,8 +42,12 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-cred', variable: 'KUBECONFIG')]) {
                     script {
+                        sh 'echo "Using KUBECONFIG: $KUBECONFIG"'
+                        sh 'ls -la $KUBECONFIG'
+                        sh 'cat $KUBECONFIG'
                         sh 'kubectl version --client'
-                        sh 'kubectl apply -f k8s.yaml --validate=false'
+                        sh 'kubectl apply -f k8s.yaml --validate=false -insecure-skip-tls-verify=true'
+
                     }
                 }
             }
